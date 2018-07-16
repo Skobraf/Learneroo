@@ -17,26 +17,67 @@ class LinkedList
 	    @tail = nil
 	end
 
-  def add(number)
-	node = Node.new(number)
-
-    if @head
-        @tail.next = node
-        @tail = node
-    else
-        @head = node
-        @tail = node
+    def add(number)
+        node = Node.new(number)
+        
+        if @head
+            @tail.next = node
+            @tail = node
+        else
+            @head = node
+            @tail = node
+        end
     end
-  end
-  
-  def get(index)
-  	variable = @head
-    for i in 0...index do
-        variable = variable.next
+    
+    def get(index)
+        variable = @head
+        for i in 0...index do
+            variable = variable.next
+        end
+        variable.data
     end
-    variable.data
-  end
 
+    def size
+        if @head
+            variable = @head
+        else
+            return 0
+        end
+
+        count = 1
+        while variable.next
+            count += 1
+            variable = variable.next
+        end
+        count
+    end
+
+    def add_in(index, item)
+        node = getNode(index)
+        item = Node.new(item)
+        item.next = node.next
+        node.next = item
+    end
+
+    def remove(index)
+        if index == 0
+            @head = @head.next
+        elsif index == self.size
+            @head = @head.next.next
+        end
+        prev_node = getNode(index - 1)
+        next_node = getNode(index + 1)
+
+    end
+    private
+
+    def getNode(index)
+        node = @head
+        for i in 0...index do
+            node = node.next
+        end
+        node
+    end
 end
 
 
