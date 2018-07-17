@@ -53,25 +53,55 @@ class LinkedList
     end
 
     def add_in(index, item)
-        node = getNode(index)
-        item = Node.new(item)
-        item.next = node.next
-        node.next = item
+        if index == 0
+            item = Node.new(item)
+            item.next = @head
+            @head = item
+        else
+            node = getNode(index - 1)
+            item = Node.new(item)
+            item.next = node.next
+            node.next = item
+        end
     end
 
     def remove(index)
+        value = getNode(index).data
         if index == 0
+            if self.size == 1
+                @tail = nil
+            end
             @head = @head.next
-        elsif index == self.size
-            @head = @head.next.next
+            
+        elsif index == self.size - 1
+            node = getNode(index - 1)
+            node.next = nil
+            @tail = node
+        else
+            prev_node = getNode(index - 1)
+            next_node = getNode(index + 1)
+            prev_node.next = next_node
         end
-        prev_node = getNode(index - 1)
-        next_node = getNode(index + 1)
-
+        value
     end
+
+    def print
+        variable = @head
+        for i in 0...self.size do
+            if variable
+                puts variable.data
+            end
+            variable = variable.next
+        end
+    end
+
     private
 
     def getNode(index)
+        if index == 0
+            return @head
+        end
+
         node = @head
         for i in 0...index do
             node = node.next
